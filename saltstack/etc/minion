@@ -1,0 +1,19 @@
+## Look locally for files
+file_client: local
+
+## Where your salt states & files are located
+file_roots:
+  base:
+    - /vagrant/saltstack/salt
+    - /vagrant/saltstack/formulas/apache-formula
+    - /vagrant/saltstack/formulas/mysql-formula
+    - /vagrant/saltstack/formulas/php-formula
+    - /vagrant/saltstack/formulas/wordpress-formula
+    - /vagrant/saltstack/keys
+    - /vagrant/saltstack/config_files
+
+
+## Where your Pillar data is located (see README.md for more details)
+pillar_roots:
+  base:
+    - /vagrant/saltstack/pillar
