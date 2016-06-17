@@ -9,7 +9,6 @@ file_roots:
     - /vagrant/saltstack/formulas/mysql-formula
     - /vagrant/saltstack/formulas/php-formula
     - /vagrant/saltstack/formulas/wordpress-formula
-    - /vagrant/saltstack/keys
     - /vagrant/saltstack/config_files
 
 

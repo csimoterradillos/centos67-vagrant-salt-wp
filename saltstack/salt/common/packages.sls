@@ -5,4 +5,3 @@ common_packages:
       - mysql-community-client
       - mysql-community-server
       - phpmyadmin
-      - php-mysql
