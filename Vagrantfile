@@ -8,9 +8,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Vagrant Box
   config.vm.box = "centos67"
   config.vm.box_url = "https://github.com/CommanderK5/packer-centos-template/releases/download/0.6.7/vagrant-centos-6.7.box"
+  ### CJST
+  ### Pedimos que vagrant utilice el usuario root
+  ### Necesitamos root para poder poner en directorios tales como /etc/salt el fichero minion aprovisionado localmente
+  config.ssh.username = "root"
+  config.ssh.password = "vagrant"
 
   # Salt Provisioner
   config.vm.provision :salt do |salt|
+
+    ### CJST: Segun la documentacion de Vagrant es imprescindible
+    ### indicar explicitamente que se va a trabajar con salt sin master, como es el caso
+    salt.masterless = true
+
     # Relative location of configuration file to use for minion
     # since we need to tell our minion to run in masterless mode
     salt.minion_config = "saltstack/etc/minion"
@@ -26,7 +36,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # I also prefer to install from git so I can specify a version.
     salt.install_type = "git"
-    salt.install_args = "v2014.1.0"
+    ### CJST: No parece funcionar correctamente la version indicada
+    ### salt.install_args = "v2014.1.0"
 
     # Run in verbose mode, so it will output all debug info to the console.
     # This is nice to have when you are testing things out. Once you know they

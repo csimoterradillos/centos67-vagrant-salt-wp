@@ -1,6 +1,9 @@
 ## Look locally for files
 file_client: local
 
+# Fix hash_type
+hash_type: sha256
+
 ## Where your salt states & files are located
 file_roots:
   base:

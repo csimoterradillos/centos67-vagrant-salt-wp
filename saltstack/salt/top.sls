@@ -1,11 +1,12 @@
 base:
     '*':
-	- add_epel_repo
-	- add_mysql_community_repo
+        - force_sync_all
+        - add_epel_repo
+        - add_mysql_community_repo
         - common
-	- network
+        - network
         - apache
         - mysql
-	- phpmyadmin
+        - phpmyadmin
         - wordpress
-	- wp_dev
+        - wp_dev
