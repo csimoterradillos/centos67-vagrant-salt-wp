@@ -1,6 +1,6 @@
 base:
   pkgrepo.managed:
-    - name: mysql.repo
+    - name: mysql
     - humanname: MySQL 5.6 Community Server
     - baseurl: http://repo.mysql.com/yum/mysql-5.6-community/6/x86_64/
     - gpgkey: file:/etc/pki/rpm-gpg/RPM-GPG-KEY-mysql

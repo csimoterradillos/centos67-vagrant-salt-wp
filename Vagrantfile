@@ -14,6 +14,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.username = "root"
   config.ssh.password = "vagrant"
 
+  ### CJST
+  ### Fijar el router por defecto para habilitar la transferencia desde Internet ficheros como wordpress
+  config.vm.provision "shell",
+   run: "always",
+   inline: "route add default gw 10.0.2.2"
+
   # Salt Provisioner
   config.vm.provision :salt do |salt|
 
