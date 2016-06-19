@@ -1,0 +1,5 @@
+wordpress:
+  wp-username: wordpressUser
+  wp-database: wordpressDatabase
+  wp-passwords:
+    wordpress: wordpressPassword
