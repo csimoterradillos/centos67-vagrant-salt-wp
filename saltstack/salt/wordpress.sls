@@ -21,7 +21,7 @@ wordpress_db:
 # This downloads wordpress from official site and untar's to our sync folder
 get_wordpress:
  cmd.run:
-  - name: 'wget http://wordpress.org/latest.tar.gz && tar xvzf latest.tar.gz'
+  - name: 'wget http://wordpress.org/latest.tar.gz && tar xvzf latest.tar.gz && rm -f lastest.tar.gz'
   - cwd: /var/www/html/
 
 # This downloads and installs WP-Cli which is needed for the following steps
@@ -54,7 +54,7 @@ install_wordpress:
 # Put apache config file related to wordpress virtual-host site.
 /etc/httpd/conf.d/wordpress.conf:
   file.managed:
-    - source: salt://config_files/wordpress/wordpress.conf
-    - user: root
-    - group: root
+    - source: salt://wordpress/wordpress.conf
+    - user: apache
+    - group: apache
     - mode: 644
