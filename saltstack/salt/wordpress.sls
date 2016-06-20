@@ -1,9 +1,10 @@
 # This state file is installs and configures the base wordpress environment 
 
+### CJST: En nuestra instalacion /var/www/html/wordpress es un directorio
 # this is the symlink to the virtual box sync folder WP will live in, the target needs to match 
-/var/www/html/wordpress:
- file.symlink:
-  - target: /www_src
+#/var/www/html/wordpress:
+# file.symlink:
+#  - target: /www_src
 
 # This block creates the wordpress database, user and sets user access. 
 wordpress_db:
@@ -25,30 +26,46 @@ get_wordpress:
   - cwd: /var/www/html/
 
 # This downloads and installs WP-Cli which is needed for the following steps
+### CJST: Nuevo procedimiento
+### Descargado de https://wp-cli.org
 get_wp-cli:
  cmd.run:
-  - name: 'curl -sS https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | bash'
+  - name: 'curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar'
   - cwd: /home/vagrant/
+  - user: vagrant
+
+### CJST: Nueva seccion para asignar permisos correctos de ejecucion
+set_permissions_wp_cli:
+ cmd.run:
+  - name: 'chmod 755 /home/vagrant/wp-cli.phar'
+  - cwd: /home/vagrant
   - user: vagrant
 
 # symlink's the WP binary to /usr/local/bin so it's in the PATH
 /usr/local/bin/wp:
  file:
   - symlink
-  - target: /home/vagrant/.wp-cli/bin/wp
+  - target: /home/vagrant/wp-cli.phar
+
+### CJST: Borro incondicionalmente wp-config.php para permitir sin problemas
+### dos intentos consecutivos de provision.
+delete_wp_config:
+ cmd.run:
+  - cwd: /var/www/html/wordpress/
+  - name: 'rm -f wp-config.php'
 
 # This command tells wp-cli to create our wp-config.php, DB info needs to be the same as above
 config_wordpress:
  cmd.run:
   - cwd: /var/www/html/wordpress/
-  - name: '/usr/local/bin/wp core config --dbname=wordpress --dbuser=wordpress --dbpass=password'
+  - name: '/usr/local/bin/wp --allow-root core config --dbname=wordpress --dbuser=wordpress --dbpass=password'
 
 # This command tells wp-cli to install wordpress, the --url needs to be the same as the IP you set for the 
 # Private IP in the Vagrantfile 
 install_wordpress:
  cmd.run:
   - cwd: /var/www/html/wordpress/
-  - name: '/usr/local/bin/wp core install --url=http://192.168.0.10/wordpress --title=development --admin_user=admin --admin_password=password --admin_email=root@localhost' 
+  - name: '/usr/local/bin/wp --allow-root core install --url=http://localhost/wordpress --title=development --admin_user=admin --admin_password=password --admin_email=vagrant@prueba.com' 
 
 # CJST - 16/06/2016
 # Put apache config file related to wordpress virtual-host site.

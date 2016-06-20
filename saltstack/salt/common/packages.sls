@@ -1,7 +1,7 @@
 common_packages:
   pkg.installed:
-    - names:
+    - pkgs:
       - httpd
       - mysql-community-client
       - mysql-community-server
-      - phpmyadmin
+      - phpMyAdmin

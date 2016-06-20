@@ -28,14 +28,6 @@ mysql_install_datadir:
       - service: mysqld
 {% endif %}
 
-mysqld-packages:
-  pkg.installed:
-    - name: {{ mysql.server }}
-{% if os_family == 'Debian' and mysql_root_password %}
-    - require:
-      - debconf: mysql_debconf
-{% endif %}
-
 mysqld:
   service.running:
     - name: {{ mysql.service }}

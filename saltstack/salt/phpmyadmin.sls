@@ -1,4 +1,4 @@
-/etc/http/conf.d/phpMyAdmin.conf:
+/etc/httpd/conf.d/phpMyAdmin.conf:
   file.managed:
      - source: salt://phpmyadmin/phpMyAdmin.conf
      - user: apache
