@@ -7,6 +7,7 @@ base:
         - apache
         - apache.mod_ssl
         - apache.mod_php5
+        - mysql
         - mysql.server
         - mysql.database
         - mysql.python

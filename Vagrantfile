@@ -8,6 +8,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Vagrant Box
   config.vm.box = "centos67"
   config.vm.box_url = "https://github.com/CommanderK5/packer-centos-template/releases/download/0.6.7/vagrant-centos-6.7.box"
+  config.vm.provider "virtualbox" do |v|
+    v.gui = true
+  end
   ### CJST
   ### Pedimos que vagrant utilice el usuario root
   ### Necesitamos root para poder poner en directorios tales como /etc/salt el fichero minion aprovisionado localmente

@@ -21,9 +21,6 @@ mysql_install_datadir:
     - name: mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
     - user: root
     - creates: /var/lib/mysql/mysql/user.frm
-    - require:
-      - pkg: {{ mysql.server }} 
-      - file: mysql_config
     - require_in:
       - service: mysqld
 {% endif %}
@@ -32,14 +29,6 @@ mysqld:
   service.running:
     - name: {{ mysql.service }}
     - enable: True
-    - require:
-      - pkg: {{ mysql.server }}
-    - watch:
-      - pkg: {{ mysql.server }}
-      - file: mysql_config
-{% if "config_directory" in mysql and "server_config" in mysql %}
-      - file: mysql_server_config
-{% endif %}
 
 # official oracle mysql repo
 # creates this file, that rewrites /etc/mysql/my.cnf setting
