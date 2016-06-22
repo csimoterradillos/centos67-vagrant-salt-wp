@@ -13,17 +13,39 @@ include:
 {% set mysql_salt_user = salt['pillar.get']('mysql:salt_user:salt_user_name', mysql_root_user) %}
 {% set mysql_salt_password = salt['pillar.get']('mysql:salt_user:salt_user_password', mysql_root_password) %}
 
-
-{% if os_family == 'Arch' %}
-# on arch linux: inital mysql datadirectory is not created
-mysql_install_datadir:
+{% if mysql_root_password %}
+mysql_root_password:
   cmd.run:
-    - name: mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-    - user: root
-    - creates: /var/lib/mysql/mysql/user.frm
-    - require_in:
+    - name: mysqladmin --user {{ mysql_root_user }} password '{{ mysql_root_password|replace("'", "'\"'\"'") }}'
+    - unless: mysql --user {{ mysql_root_user }} --password='{{ mysql_root_password|replace("'", "'\"'\"'") }}' --execute="SELECT 1;"
+    - require:
       - service: mysqld
+
+{% for host in ['localhost', 'localhost.localdomain', salt['grains.get']('fqdn')] %}
+mysql_delete_anonymous_user_{{ host }}:
+  mysql_user:
+    - absent
+    - host: {{ host or "''" }}
+    - name: ''
+    - connection_host: '{{ mysql_host }}'
+    - connection_user: '{{ mysql_salt_user }}'
+    {% if mysql_salt_password %}
+    - connection_pass: '{{ mysql_salt_password }}'
+    {% endif %}
+    - connection_charset: utf8
+    - require:
+      - service: mysqld
+      - pkg: mysql_python
+      {%- if (mysql_salt_user == mysql_root_user) and mysql_root_password %}
+      - cmd: mysql_root_password
+      {%- endif %}
+{% endfor %}
 {% endif %}
+
+
+mysqld-packages:
+  pkg.installed:
+    - name: {{ mysql.server }}
 
 mysqld:
   service.running:

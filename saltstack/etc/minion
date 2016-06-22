@@ -19,3 +19,9 @@ file_roots:
 pillar_roots:
   base:
     - /vagrant/saltstack/pillar
+
+
+grains:
+  server_id:
+    - localhost
+    - 127.0.0.1

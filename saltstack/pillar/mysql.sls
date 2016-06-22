@@ -16,10 +16,17 @@ mysql:
   server:
     root_user: 'sqladmin'
     root_password: 'samplepass'
-    host: 'localhost'
     mysqld:
-      bind-address: 127.0.0.1
+      bind-address: 'localhost'
       port: 3306
+
+  user:
+    wordpress:
+      password: 'password'
+      host: localhost
+      databases:
+        - database: wordpress
+          grants: ['all privileges']
 
   lookup:
     server: mysql-community-server.x86_64
