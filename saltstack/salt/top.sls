@@ -8,10 +8,7 @@ base:
         - apache.mod_ssl
         - apache.mod_php5
         - mysql
-        - mysql.server
-        - mysql.database
-        - mysql.python
-        - mysql.user
+        - mysql_user
         - phpmyadmin
         - wordpress
         - users
